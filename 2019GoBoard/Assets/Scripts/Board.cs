@@ -30,5 +30,9 @@ public class Board : MonoBehaviour
         allNodes = new List<Node>(nArray);   
     }
 
-
+    public Node FindNodeAt(Vector3 position)
+    {
+        Vector2 boardCoord = Utility.Vector2Round(new Vector2(position.x, position.z));
+        return allNodes.Find(n => n.RoundedCoordinate == boardCoord);
+    }
 }
