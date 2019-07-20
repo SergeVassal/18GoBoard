@@ -124,6 +124,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   linkPrefab: {fileID: 1664493957614704, guid: a0f52ea3b7e55b54eace317f67adcce5, type: 2}
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 256
   geometry: {fileID: 1371794835668216}
   scaleTime: 0.4
   easeType: 15

@@ -11,6 +11,10 @@ public class Node : MonoBehaviour
     public List<Node> NeighborNodes { get; private set; }
 
     [SerializeField] private GameObject linkPrefab;
+    [SerializeField] private LayerMask obstacleLayer;
+
+    [SerializeField] private bool isLevelGoal=false;
+    public bool IsLevelGoal { get { return isLevelGoal;} }
 
     [SerializeField] private GameObject geometry;
     public GameObject Geometry { get { return geometry; }  }
@@ -23,9 +27,6 @@ public class Node : MonoBehaviour
 
     [SerializeField] private float delay;
     public float Delay { get { return delay; } }
-
-    [SerializeField] private bool autoRun;
-    public bool AutoRun { get { return autoRun; } }
 
     private Board board;
     private bool isInitialized=false;
@@ -49,12 +50,7 @@ public class Node : MonoBehaviour
             if (board != null)
             {
                 NeighborNodes = FindNeighbors(board.AllNodes);
-            }
-
-            if (AutoRun)
-            {
-                InitNode();
-            }
+            }            
         }        
     }    
 
@@ -75,7 +71,7 @@ public class Node : MonoBehaviour
         return nList;
     }
 
-    private void InitNode()
+    public void InitNode()
     {
         if (!isInitialized)
         {
@@ -100,7 +96,6 @@ public class Node : MonoBehaviour
 
     private void InitNeighbors()
     {
-        Debug.Log("Init neigh");
         StartCoroutine(InitNeighborsRoutine());
     }
 
@@ -110,7 +105,12 @@ public class Node : MonoBehaviour
 
         foreach(Node n in NeighborNodes)
         {
-            if (!linkedNodes.Contains(n))
+            if (linkedNodes.Contains(n))
+            {
+                continue;                              
+            }
+            Obstacle obstacle = FindObstacle(n);
+            if (obstacle == null)
             {
                 LinkNode(n);
                 n.InitNode();
@@ -141,5 +141,18 @@ public class Node : MonoBehaviour
                 targetNode.LinkedNodes.Add(this);
             }
         }
+    }
+
+    private Obstacle FindObstacle(Node targetNode)
+    {
+        Vector3 checkDirection = targetNode.transform.position - transform.position;
+        RaycastHit raycastHit;
+
+        if(Physics.Raycast(transform.position,checkDirection,out raycastHit,
+            Board.spacing + 0.1f, obstacleLayer))
+        {
+            return raycastHit.collider.GetComponent<Obstacle>();
+        }
+        return null;
     }
 }

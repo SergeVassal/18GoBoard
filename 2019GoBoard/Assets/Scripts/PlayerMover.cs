@@ -20,13 +20,18 @@ public class PlayerMover : MonoBehaviour
         board = Object.FindObjectOfType<Board>().GetComponent<Board>();
     }
 
+    private void Start()
+    {
+        UpdateBoardPlayerNode();
+    }
+
     public void Move(Vector3 destinationPos,float delayTime=0.25f)
     {
         if (board != null)
         {
             Node targetNode = board.FindNodeAt(destinationPos);
 
-            if (targetNode != null)
+            if (targetNode != null && board.PlayerNode.LinkedNodes.Contains(targetNode))
             {
                 StartCoroutine(MoveRoutine(destinationPos,delayTime));
             }
@@ -56,6 +61,8 @@ public class PlayerMover : MonoBehaviour
         iTween.Stop(gameObject);
         transform.position = destinationPos;
         IsMoving = false;
+
+        UpdateBoardPlayerNode();
     }
     
     public void MoveLeft()
@@ -82,6 +89,11 @@ public class PlayerMover : MonoBehaviour
         Move(newPosition, 0);
     }    
 
-
-
+    private void UpdateBoardPlayerNode()
+    {
+        if (board != null)
+        {
+            board.UpdatePlayerNode();
+        }
+    }
 }

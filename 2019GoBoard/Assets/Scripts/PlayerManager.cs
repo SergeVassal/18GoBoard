@@ -6,8 +6,9 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerInput))]
 public class PlayerManager : MonoBehaviour 
 {
+    public PlayerInput playerInput;
+
     private PlayerMover playerMover;
-    private PlayerInput playerInput;
 
 
     private void Awake()
