@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     public UnityEvent playLevelEvent;
     public UnityEvent endLevelEvent;
 
-    [SerializeField] private float delay = 1f;
+    [SerializeField] private float delay;
 
     private Board board;
     private PlayerManager playerManager;
@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator StartLevelRoutine()
     {
-        Debug.Log("Start level!");
+        Debug.Log("Starting level!");
         playerManager.playerInput.InputEnabled = false;
         while (!hasLevelStarted)
         {
