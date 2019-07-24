@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class PlayerMover : MonoBehaviour
 {
     public Vector3 Destination { get; private set; }
@@ -17,7 +18,7 @@ public class PlayerMover : MonoBehaviour
 
     private void Awake ()
     {
-        board = Object.FindObjectOfType<Board>().GetComponent<Board>();
+        board = Object.FindObjectOfType<Board>().GetComponent<Board>();        
     }
 
     private void Start()
@@ -36,6 +37,7 @@ public class PlayerMover : MonoBehaviour
                 StartCoroutine(MoveRoutine(destinationPos,delayTime));
             }
         }
+        
     }
 
     private IEnumerator MoveRoutine(Vector3 destinationPos, float delayTime)
